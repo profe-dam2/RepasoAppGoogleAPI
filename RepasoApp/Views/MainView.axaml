@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:RepasoApp.ViewModels"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RepasoApp.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+    <StackPanel>
+        <Button Content="MOSTAR USUARIOS" 
+                Command="{Binding ObtenerUsuariosCommand}"/>
+        <ListBox Width="220" Name="ListBoxUsuarios"
+                 ItemsSource="{Binding ListaUsuarios}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel >
+                        <Image Width="120" Height="120"
+                            asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}"/>
+                        <TextBlock Text="{Binding Email}"/>
+                        <TextBlock Text="{Binding Nombre}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="LOGIN" 
+                Command="{Binding LoginUsuarioCommand}"
+                CommandParameter="{Binding 
+                ElementName=ListBoxUsuarios, Path=SelectedItem}"/>
+        
+        <Button Content="REGISTAR CON GOOGLE"
+                Command="{Binding RegisterUserCommand}"/>
+        <Image Source="{Binding ImageURL}" Width="200" Height="200"/>
+        <Button Content="CREAR PRODUCTO" 
+                Command="{Binding CrearProductoCommand}"/>
+        <Button Content="Obtener productos" 
+                Command="{Binding ObtenerProductoCommand}"/>
+    </StackPanel>
+</UserControl>
