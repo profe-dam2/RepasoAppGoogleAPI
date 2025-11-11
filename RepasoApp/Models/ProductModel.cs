@@ -5,8 +5,8 @@ namespace RepasoApp.Models;
 
 public class ProductModel
 {
-    // [JsonProperty("id")]
-    // public string Id { get; set; }
+    [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string Id { get; set; }
     
     [JsonProperty("ref")]
     public string Ref { get; set; }

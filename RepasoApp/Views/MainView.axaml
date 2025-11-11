@@ -7,38 +7,61 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RepasoApp.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
     <StackPanel>
-        <Button Content="MOSTAR USUARIOS" 
-                Command="{Binding ObtenerUsuariosCommand}"/>
-        <ListBox Width="220" Name="ListBoxUsuarios"
+        <Button Content="MOSTAR USUARIOS"
+                Command="{Binding ObtenerUsuariosCommand}" />
+        <ListBox Width="220" Height="150" Name="ListBoxUsuarios"
                  ItemsSource="{Binding ListaUsuarios}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel >
+                    <StackPanel>
                         <Image Width="120" Height="120"
-                            asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}"/>
-                        <TextBlock Text="{Binding Email}"/>
-                        <TextBlock Text="{Binding Nombre}"/>
+                               asyncImageLoader:ImageLoader.Source="{Binding ImageUrl}" />
+                        <TextBlock Text="{Binding Email}" />
+                        <TextBlock Text="{Binding Nombre}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="LOGIN" 
+        <Button Content="LOGIN"
                 Command="{Binding LoginUsuarioCommand}"
                 CommandParameter="{Binding 
-                ElementName=ListBoxUsuarios, Path=SelectedItem}"/>
-        
+                ElementName=ListBoxUsuarios, Path=SelectedItem}" />
+
         <Button Content="REGISTAR CON GOOGLE"
-                Command="{Binding RegisterUserCommand}"/>
-        <Image Source="{Binding ImageURL}" Width="200" Height="200"/>
-        <Button Content="CREAR PRODUCTO" 
-                Command="{Binding CrearProductoCommand}"/>
-        <Button Content="Obtener productos" 
-                Command="{Binding ObtenerProductoCommand}"/>
+                Command="{Binding RegisterUserCommand}" />
+        <Button Content="CREAR PRODUCTO"
+                Command="{Binding CrearProductoCommand}" />
+        <Button Content="Obtener productos"
+                Command="{Binding ObtenerProductoCommand}" />
+        <Button Content="ACTUALIZAR PRODUCTO" 
+                Command="{Binding ModificarProductoCommand}"
+                CommandParameter="{Binding ElementName=ListaProductoBox, Path=SelectedItem}"/>
+        <Button Content="ELIMINAR PRODUCTO" 
+                Command="{Binding EliminarProductoCommand}"
+                CommandParameter="{Binding ElementName=ListaProductoBox, Path=SelectedItem}"/>
+        
+        <ListBox Name="ListaProductoBox" Height="200" Width="200" 
+                 ItemsSource="{Binding ListaProductos}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Center">
+                        <Image Width="80" Height="80"
+                               asyncImageLoader:ImageLoader.Source="https://cdn-icons-png.flaticon.com/512/1822/1822045.png" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Id}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Ref}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Color}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Diametro}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Peso}" />
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </StackPanel>
 </UserControl>

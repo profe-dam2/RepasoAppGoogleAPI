@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -13,6 +14,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty] private string _greeting = "Welcome to Avalonia!";
     [ObservableProperty] private string imageURL;
     [ObservableProperty] private AvaloniaList<Usuario> listaUsuarios=new();
+    [ObservableProperty] private AvaloniaList<ProductModel> listaProductos=new();
     
     private APIService apiService { get; set; } = new();
 
@@ -28,11 +30,59 @@ public partial class MainViewModel : ViewModelBase
         };
         await apiService.CrearProducto(p);
     }
+    
+    [RelayCommand]
+    public async Task EliminarProductoAsync(ProductModel producto)
+    {
+        if (producto == null)
+        {
+            Console.WriteLine("No has seleccionado nada");
+            return;
+        }
+        try
+        {
+            bool okEliminar = await apiService.EliminarProducto(producto);
+            if (okEliminar)
+            {
+                Console.WriteLine("Producto Eliminar con éxito");
+                await ObtenerProductoAsync(); //actualiza la lista
+            }
+        }
+        catch (Exception ex)
+        {
+                Console.WriteLine("Error al eliminar producto" + ex.Message);
+        }
+    }
 
+    [RelayCommand]
+    public async Task ModificarProductoAsync(ProductModel producto)
+    {
+        if (producto == null)
+        {
+            Console.WriteLine("No has seleccionado nada");
+            return;
+        }
+        try
+        {
+            producto.Ref = "REF MODIFICADA";
+            bool okModificar = await apiService.ModificarProducto(producto);
+            if (okModificar)
+            {
+                Console.WriteLine("Producto Modificado con éxito");
+                await ObtenerProductoAsync();
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error al actualizar producto" + ex.Message);
+        }
+    }
+    
     [RelayCommand]
     public async Task ObtenerProductoAsync()
     {
-        var listaProductos = await apiService.ObtenerProductos();
+        ListaProductos = await apiService.ObtenerProductos();
     }
     
     [RelayCommand]
